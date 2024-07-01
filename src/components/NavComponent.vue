@@ -11,7 +11,7 @@
             <router-link class="nav-link active" to="/">Nyitólap</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/change">Váltó</router-link>
+            <router-link class="nav-link" to="/changer">Váltó</router-link>
           </li>
         </ul>
       </div>
