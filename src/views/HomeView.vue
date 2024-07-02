@@ -1,9 +1,8 @@
 <template>
   <div class="container-fluid">
-    <div>
-      <div class="form-container">
+    <div class="form-container">
       <div class="form-group">
-        <label>All currency: {{ dataLength }}</label>
+        <label id="all-currency">All currency: {{ dataLength }}</label>
       </div>
       <div class="form-group">
         <label for="fromDate">From Date:</label>
@@ -21,8 +20,9 @@
         <label for="size">Size:</label>
         <input type="number" v-model="size" id="size" />
       </div>
-    </div class="chart-container">
-    <h1>chart</h1>
+      <div class="form-group">
+        <button id="search-button" type="submit" @click="Search(fromDate.replaceAll('-', ''), toDate.replaceAll('-', ''), from, size)">Search</button>
+      </div>
     </div>
 
     <div class="table-container">
@@ -55,6 +55,10 @@
         </tbody>
       </table>
     </div>
+
+    <div class="chart-container">
+      <h1>chart</h1>
+    </div>
   </div>
 </template>
 
@@ -69,7 +73,6 @@ const toDate = ref((new Date().toISOString().slice(0, 10)));
 const from = ref(0);
 const size = ref(20);
 
-// fromDate.value.replaceAll('-', ''), toDate.value.replaceAll('-', ''), from.value, size.value
 DataService.getAllExchangeRate()
   .then((resp) => {
     exchangeRates.value = resp.data.exchangeRates;
@@ -79,6 +82,19 @@ DataService.getAllExchangeRate()
   .catch((err) => {
     console.log(err);
   });
+
+const Search = (fromDate, toDate, from, size) => {
+  console.log("search");
+  DataService
+    .getAllExchangeRate(fromDate, toDate, from, size)
+    .then((resp) => {
+      exchangeRates.value = resp.data.exchangeRates;
+      dataLength.value = resp.data.total;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 </script>
 
 <style scoped>
@@ -94,7 +110,8 @@ DataService.getAllExchangeRate()
   display: flex;
   flex-wrap: wrap;
   width: 300px;
-  margin-left: 6rem;
+  margin-left: 1rem;
+  margin-right: 6rem;
   padding: 20px;
   background-color: #ffffff;
   border: 1px solid #ccc;
@@ -104,8 +121,8 @@ DataService.getAllExchangeRate()
 .form-group {
   display: flex;
   flex-direction: column;
-  margin-right: 20px;
   margin-bottom: 20px;
+  margin: 5px auto;
 }
 
 .form-group label {
@@ -122,16 +139,40 @@ DataService.getAllExchangeRate()
 }
 
 .form-group input[type="number"] {
-  width: 100%;
+  width: 200px;
 }
 
 .table-container {
-  margin: 0rem 0rem 0rem 8rem;
   padding: 20px;
   background-color: #ffffff;
   border: 1px solid #ccc;
   border-radius: 8px;
   flex: 1;
+}
+
+#search-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  width: 150px;
+  background-color: #393737;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  margin: 5px auto;
+}
+
+.chart-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 400px;
+  margin-right: 1rem;
+  margin-left: 6rem;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
 }
 
 @media (max-width: 768px) {
@@ -148,6 +189,29 @@ DataService.getAllExchangeRate()
   .table-container {
     width: 100%;
     margin: 0px;
+  }
+
+  #search-button {
+    padding: 5px 10px;
+    font-size: 16px;
+    background-color: #393737;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin: 0px 0px;
+  }
+
+  #all-currency {
+    margin: 1rem;
+  }
+
+  .chart-container {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 0px;
   }
 }
 </style>
