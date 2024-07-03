@@ -24,9 +24,11 @@
 </script>
 
 <style scoped>
-.navbar {
-  background-color: #343a40;
-  color: #ffffff;
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+nav {
+  background-color: #55AD9B !important;
+}
+
+button {
+  margin: 5px;
 }
 </style>

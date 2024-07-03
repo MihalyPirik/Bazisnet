@@ -21,12 +21,19 @@
         <input type="number" v-model="size" id="size" />
       </div>
       <div class="form-group">
+        <label for="currency">Currency:</label>
+        <select id="currency" class="form-select">
+          <option value="">All selected</option>
+          <option value="1">BGN</option>
+        </select>
+      </div>
+      <div class="form-group">
         <button id="search-button" type="submit" @click="Search(fromDate.replaceAll('-', ''), toDate.replaceAll('-', ''), from, size)">Search</button>
       </div>
     </div>
 
     <div class="table-container">
-      <table class="table table-striped table-hover">
+      <table class="styled-table table-striped table-hover">
         <thead>
           <tr>
             <th scope="col">Currency</th>
@@ -71,7 +78,7 @@ const dataLength = ref();
 const fromDate = ref((new Date().toISOString().slice(0, 10)));
 const toDate = ref((new Date().toISOString().slice(0, 10)));
 const from = ref(0);
-const size = ref(20);
+const size = ref(18);
 
 DataService.getAllExchangeRate()
   .then((resp) => {
@@ -103,17 +110,17 @@ const Search = (fromDate, toDate, from, size) => {
   flex-wrap: wrap;
   align-items: flex-start;
   padding: 20px;
-  background-color: #f5f5f5;
+  background-color: #F1F8E8;
 }
 
 .form-container {
   display: flex;
   flex-wrap: wrap;
-  width: 300px;
+  width: 350px;
   margin-left: 1rem;
-  margin-right: 6rem;
+  margin-right: 0.5rem;
   padding: 20px;
-  background-color: #ffffff;
+  background-color: #55AD9B;
   border: 1px solid #ccc;
   border-radius: 8px;
 }
@@ -142,12 +149,55 @@ const Search = (fromDate, toDate, from, size) => {
   width: 200px;
 }
 
-.table-container {
-  padding: 20px;
-  background-color: #ffffff;
+.form-group select {
+  padding: 10px;
+  font-size: 16px;
   border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px;
+}
+
+.table-container {
+  margin: 1rem auto;
+  padding: 1rem;
+  width: 100%;
+  max-width: 1200px;
+  background-color: #55AD9B;
   border-radius: 8px;
-  flex: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.styled-table thead tr {
+  background-color: #009879;
+  text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody {
+  background-color: #F1F8E8;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+
+.styled-table tbody tr:hover {
+  background-color: #55AD9B;
+  cursor: pointer;
 }
 
 #search-button {
@@ -168,9 +218,9 @@ const Search = (fromDate, toDate, from, size) => {
   flex-wrap: wrap;
   width: 400px;
   margin-right: 1rem;
-  margin-left: 6rem;
+  margin-left: 0.5rem;
   padding: 20px;
-  background-color: #ffffff;
+  background-color: #55AD9B;
   border: 1px solid #ccc;
   border-radius: 8px;
 }
@@ -182,13 +232,11 @@ const Search = (fromDate, toDate, from, size) => {
 
   .form-container {
     width: 100%;
-    margin-bottom: 20px;
-    margin-left: 0px;
+    margin: auto 0;
   }
 
   .table-container {
-    width: 100%;
-    margin: 0px;
+    padding: 0;
   }
 
   #search-button {
@@ -209,9 +257,7 @@ const Search = (fromDate, toDate, from, size) => {
 
   .chart-container {
     width: 100%;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 0px;
+    margin: auto 0;
   }
 }
 </style>
