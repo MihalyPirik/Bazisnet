@@ -1,78 +1,82 @@
 <template>
-  <div class="container-fluid">
-    <div class="form-container">
-      <div class="form-group">
-        <label id="all-currency">All currency: {{ dataLength }}</label>
+  <div class='container-fluid'>
+    <div class='form-container'>
+      <div class='form-group'>
+        <label id='all-currency'>All currency: {{ dataLength }}</label>
       </div>
-      <div class="form-group">
-        <label for="fromDate">From Date:</label>
-        <input type="date" v-model="fromDate" id="fromDate" />
+      <div class='form-group'>
+        <label for='fromDate'>From Date:</label>
+        <input type='date' v-model='fromDate' id='fromDate' />
       </div>
-      <div class="form-group">
-        <label for="toDate">To Date:</label>
-        <input type="date" v-model="toDate" id="toDate" />
+      <div class='form-group'>
+        <label for='toDate'>To Date:</label>
+        <input type='date' v-model='toDate' id='toDate' />
       </div>
-      <div class="form-group">
-        <label for="from">From:</label>
-        <input type="number" v-model="from" id="from" />
+      <div class='form-group'>
+        <label for='from'>From:</label>
+        <input type='number' v-model='from' id='from' />
       </div>
-      <div class="form-group">
-        <label for="size">Size:</label>
-        <input type="number" v-model="size" id="size" />
+      <div class='form-group'>
+        <label for='size'>Size:</label>
+        <input type='number' v-model='size' id='size' />
       </div>
-      <div class="form-group">
-        <label for="currency">Currency:</label>
-        <select id="currency" class="form-select" v-model="selectedCurrency">
-          <option value="all">All selected</option>
-          <option v-for="currency in currencies" :key="currency" :value="currency">{{ currency }}</option>
+      <div class='form-group'>
+        <label for='currency'>Currency:</label>
+        <select id='currency' class='form-select' v-model='selectedCurrency'>
+          <option value='All'>All selected</option>
+          <option v-for='currency in currencies' :key='currency' :value='currency'>{{ currency }}</option>
         </select>
       </div>
-      <div class="form-group">
-        <button id="search-button" type="submit"
-          @click="Search(fromDate.replaceAll('-', ''), toDate.replaceAll('-', ''), from, size)">Search</button>
+      <div class='form-group'>
+        <button id='search-button' type='submit'
+          @click='Search(fromDate.replaceAll("-", ""), toDate.replaceAll("-", ""), from, size)'>Search</button>
       </div>
     </div>
 
-    <div class="table-container">
-      <table class="styled-table table-striped table-hover">
+    <div class='table-container'>
+      <table class='styled-table table-striped table-hover'>
         <thead>
           <tr>
-            <th scope="col">Currency</th>
-            <th scope="col">Date</th>
-            <th scope="col">Time</th>
-            <th scope="col">Unit</th>
-            <th scope="col">buyRate</th>
-            <th scope="col">middleRate</th>
-            <th scope="col">salesRate</th>
-            <th scope="col">name</th>
-            <th scope="col">diffRate</th>
+            <th scope='col'>Currency</th>
+            <th scope='col'>Date</th>
+            <th scope='col'>Time</th>
+            <th scope='col'>Unit</th>
+            <th scope='col'>BuyRate</th>
+            <th scope='col'>MiddleRate</th>
+            <th scope='col'>SlesRate</th>
+            <th scope='col'>Name</th>
+            <th scope='col'>DiffRate</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="exchangeRate in exchangeRates" :key="exchangeRate.currency">
-            <th scope="row">{{ exchangeRate.currency ? exchangeRate.currency : "No data" }}</th>
-            <th scope="row">{{ exchangeRate.date ? exchangeRate.date : "No data" }}</th>
-            <th scope="row">{{ exchangeRate.time ? exchangeRate.time : "No data" }}</th>
-            <th scope="row">{{ exchangeRate.unit ? exchangeRate.unit : "No data" }}</th>
-            <th scope="row">{{ exchangeRate.buyRate ? exchangeRate.buyRate : "No data" }}</th>
-            <th scope="row">{{ exchangeRate.middleRate ? exchangeRate.middleRate : "No data" }}</th>
-            <th scope="row">{{ exchangeRate.salesRate ? exchangeRate.salesRate : "No data" }}</th>
-            <th scope="row">{{ exchangeRate.name ? exchangeRate.name : "No data" }}</th>
-            <th scope="row">{{ exchangeRate.diffRate ? exchangeRate.diffRate : "No data" }}</th>
+          <tr v-for='exchangeRate in exchangeRates' :key='exchangeRate.currency'>
+            <th scope='row'>{{ exchangeRate.currency ? exchangeRate.currency : 'No data' }}</th>
+            <th scope='row'>{{ exchangeRate.date ? exchangeRate.date : 'No data' }}</th>
+            <th scope='row'>{{ exchangeRate.time ? exchangeRate.time : 'No data' }}</th>
+            <th scope='row'>{{ exchangeRate.unit ? exchangeRate.unit : 'No data' }}</th>
+            <th scope='row'>{{ exchangeRate.buyRate ? exchangeRate.buyRate : 'No data' }}</th>
+            <th scope='row'>{{ exchangeRate.middleRate ? exchangeRate.middleRate : 'No data' }}</th>
+            <th scope='row'>{{ exchangeRate.salesRate ? exchangeRate.salesRate : 'No data' }}</th>
+            <th scope='row'>{{ exchangeRate.name ? exchangeRate.name : 'No data' }}</th>
+            <th scope='row'>{{ exchangeRate.diffRate ? exchangeRate.diffRate : 'No data' }}</th>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <div class="chart-container">
-      <h1>chart</h1>
+    <div class='chart-container'>
+      <Bar id='chart' :options='chartRates.options' :data='chartRates.rates' />
     </div>
   </div>
 </template>
 
 <script setup>
-import DataService from "../services/dataService";
-import { ref, onMounted } from "vue";
+import DataService from '../services/dataService';
+import { ref, onMounted, computed } from 'vue';
+import { Bar } from 'vue-chartjs';
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
+
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
 const today = new Date();
 today.setDate(today.getDate() - 1);
@@ -84,7 +88,54 @@ const toDate = ref((new Date().toISOString().slice(0, 10)));
 const from = ref(0);
 const size = ref(18);
 const currencies = ref([]);
-const selectedCurrency = ref('all');
+const selectedCurrency = ref('All');
+const chartRates = computed(() => {
+  return {
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          ticks: {
+            font: {
+              size: 14,
+              weight: '200'
+            }
+          }
+        },
+        y: {
+          ticks: {
+            font: {
+              size: 14,
+              weight: '200'
+            }
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          labels: {
+            font: {
+              size: 16, 
+              weight: 'bold'
+            },
+            color: '#393737'
+          }
+        }
+      }
+    },
+    rates: {
+      labels: exchangeRates.value.map(rate => rate.date),
+      datasets: [
+        {
+          label: selectedCurrency.value,
+          backgroundColor: '#393737',
+          data: exchangeRates.value.map(rate => rate.middleRate)
+        }
+      ]
+    }
+  };
+});
 
 onMounted(() => {
   DataService
@@ -143,7 +194,7 @@ const calculateDateDifferenceInDays = (date1, date2) => {
 };
 
 const filterData = () => {
-  if (selectedCurrency.value === 'all') {
+  if (selectedCurrency.value === 'All') {
     exchangeRates.value;
   } else {
     const dayDifference = calculateDateDifferenceInDays(toDate, fromDate);
@@ -160,18 +211,16 @@ const filterData = () => {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  padding: 20px;
+  padding: 10px;
   background-color: #F1F8E8;
 }
 
 .form-container {
   display: flex;
   flex-wrap: wrap;
-  width: 300px;
-  margin-left: 1rem;
-  margin-right: 0.5rem;
-  padding: 20px;
-  background-color: #55AD9B;
+  width: 265px;
+  padding: 10px;
+  background-color: #54b4a0;
   border: 1px solid #ccc;
   border-radius: 8px;
 }
@@ -196,7 +245,7 @@ const filterData = () => {
   width: 200px;
 }
 
-.form-group input[type="number"] {
+.form-group input[type='number'] {
   width: 200px;
 }
 
@@ -209,11 +258,11 @@ const filterData = () => {
 }
 
 .table-container {
-  margin: 1rem auto;
+  margin: 0 1rem;
   padding: 1rem;
   width: 100%;
-  max-width: 1200px;
-  background-color: #55AD9B;
+  max-width: 800px;
+  background-color: #54b4a0;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -224,13 +273,13 @@ const filterData = () => {
 }
 
 .styled-table thead tr {
-  background-color: #009879;
+  background-color: #09a183;
   text-align: left;
 }
 
 .styled-table th,
 .styled-table td {
-  padding: 12px 15px;
+  padding: 10px 12px;
   border: 1px solid #ddd;
 }
 
@@ -247,7 +296,7 @@ const filterData = () => {
 }
 
 .styled-table tbody tr:hover {
-  background-color: #55AD9B;
+  background-color: #54b4a0;
   cursor: pointer;
 }
 
@@ -267,11 +316,10 @@ const filterData = () => {
 .chart-container {
   display: flex;
   flex-wrap: wrap;
-  width: 400px;
-  margin-right: 1rem;
-  margin-left: 0.5rem;
+  width: 25rem;
+  height: 25rem;
   padding: 20px;
-  background-color: #55AD9B;
+  background-color: #54b4a0;
   border: 1px solid #ccc;
   border-radius: 8px;
 }
@@ -288,6 +336,7 @@ const filterData = () => {
 
   .table-container {
     padding: 0;
+    margin: 15px auto;
   }
 
   #search-button {
