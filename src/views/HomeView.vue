@@ -22,13 +22,14 @@
       </div>
       <div class="form-group">
         <label for="currency">Currency:</label>
-        <select id="currency" class="form-select">
-          <option value="">All selected</option>
-          <option value="1">BGN</option>
+        <select id="currency" class="form-select" v-model="selectedCurrency">
+          <option value="all">All selected</option>
+          <option v-for="currency in currencies" :key="currency" :value="currency">{{ currency }}</option>
         </select>
       </div>
       <div class="form-group">
-        <button id="search-button" type="submit" @click="Search(fromDate.replaceAll('-', ''), toDate.replaceAll('-', ''), from, size)">Search</button>
+        <button id="search-button" type="submit"
+          @click="Search(fromDate.replaceAll('-', ''), toDate.replaceAll('-', ''), from, size)">Search</button>
       </div>
     </div>
 
@@ -71,36 +72,86 @@
 
 <script setup>
 import DataService from "../services/dataService";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+
+const today = new Date();
+today.setDate(today.getDate() - 1);
 
 const exchangeRates = ref([])
 const dataLength = ref();
-const fromDate = ref((new Date().toISOString().slice(0, 10)));
+const fromDate = ref((today.toISOString().slice(0, 10)));
 const toDate = ref((new Date().toISOString().slice(0, 10)));
 const from = ref(0);
 const size = ref(18);
+const currencies = ref([]);
+const selectedCurrency = ref('all');
 
-DataService.getAllExchangeRate()
-  .then((resp) => {
-    exchangeRates.value = resp.data.exchangeRates;
-    dataLength.value = resp.data.total;
-    console.log(fromDate.value.replaceAll('-', ''));
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+onMounted(() => {
+  DataService
+    .getAllExchangeRate(fromDate.value.replaceAll('-', ''))
+    .then((resp) => {
+      exchangeRates.value = resp.data.exchangeRates;
+      dataLength.value = resp.data.total;
 
-const Search = (fromDate, toDate, from, size) => {
-  console.log("search");
+      const uniqueCurrencies = new Set();
+      exchangeRates.value.forEach((rate) => {
+        if (rate.currency) {
+          uniqueCurrencies.add(rate.currency);
+        }
+      });
+
+      currencies.value = Array.from(uniqueCurrencies)
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+const Search = (fromDate, toDate, from, size) => { // az első keresés nem jó
+  exchangeRates.value = [];
   DataService
     .getAllExchangeRate(fromDate, toDate, from, size)
     .then((resp) => {
       exchangeRates.value = resp.data.exchangeRates;
       dataLength.value = resp.data.total;
+
+      const uniqueCurrencies = new Set();
+      exchangeRates.value.forEach((rate) => {
+        if (rate.currency) {
+          uniqueCurrencies.add(rate.currency);
+        }
+      });
+
+      currencies.value = Array.from(uniqueCurrencies)
+      filterData();
     })
     .catch((err) => {
       console.log(err);
     });
+
+};
+
+const calculateDateDifferenceInDays = (date1, date2) => {
+  const firstDate = new Date(date1.value);
+  const secondDate = new Date(date2.value);
+
+  const timeDifference = Math.abs(firstDate.getTime() - secondDate.getTime());
+
+  const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+  return dayDifference;
+};
+
+const filterData = () => {
+  if (selectedCurrency.value === 'all') {
+    exchangeRates.value;
+  } else {
+    const dayDifference = calculateDateDifferenceInDays(toDate, fromDate);
+
+    size.value = dayDifference * 18;
+    exchangeRates.value = exchangeRates.value.filter(rate => rate.currency === selectedCurrency.value);
+    dataLength.value = exchangeRates.value.length;
+  };
 };
 </script>
 
@@ -116,7 +167,7 @@ const Search = (fromDate, toDate, from, size) => {
 .form-container {
   display: flex;
   flex-wrap: wrap;
-  width: 350px;
+  width: 300px;
   margin-left: 1rem;
   margin-right: 0.5rem;
   padding: 20px;
