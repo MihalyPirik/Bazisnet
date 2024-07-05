@@ -2,7 +2,7 @@
   <footer class="footer">
     <div class="content has-text-centered">
       <p>
-        &copy; {{ currentYear }} Pirik Mihály
+        &copy;{{ currentYear }} Pirik Mihály
       </p>
     </div>
   </footer>
@@ -21,7 +21,7 @@ export default {
 
 <style scoped>
 .footer {
-  background-color: #55AD9B;
+  background-color: #5fc584;
   padding: 0.5rem 0;
   position: fixed;
   width: 100%;

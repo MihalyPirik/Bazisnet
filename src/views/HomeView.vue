@@ -49,7 +49,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for='exchangeRate in exchangeRates' :key='exchangeRate.currency'>
+          <tr v-for='exchangeRate in exchangeRates' :key='exchangeRate.currency'
+            @click='handleRowClick(exchangeRate)'>
             <th scope='row'>{{ exchangeRate.currency ? exchangeRate.currency : 'No data' }}</th>
             <th scope='row'>{{ exchangeRate.date ? exchangeRate.date : 'No data' }}</th>
             <th scope='row'>{{ exchangeRate.time ? exchangeRate.time : 'No data' }}</th>
@@ -98,7 +99,7 @@ const chartRates = computed(() => {
         x: {
           ticks: {
             font: {
-              size: 14,
+              size: 12,
               weight: 'bold'
             },
             color: '#393737'
@@ -107,7 +108,7 @@ const chartRates = computed(() => {
         y: {
           ticks: {
             font: {
-              size: 14,
+              size: 12,
               weight: 'bold'
             },
             color: '#393737'
@@ -118,7 +119,7 @@ const chartRates = computed(() => {
         legend: {
           labels: {
             font: {
-              size: 16, 
+              size: 16,
               weight: 'bold'
             },
             color: '#393737'
@@ -163,7 +164,7 @@ onMounted(() => {
 const Search = (fromDate, toDate, from, size) => {
   exchangeRates.value = [];
   DataService
-    .getAllExchangeRate(fromDate, toDate, from, size*18)
+    .getAllExchangeRate(fromDate, toDate, from, size * 18)
     .then((resp) => {
       exchangeRates.value = resp.data.exchangeRates;
       dataLength.value = resp.data.total;
@@ -182,6 +183,11 @@ const Search = (fromDate, toDate, from, size) => {
       console.log(err);
     });
 
+};
+
+const handleRowClick = (exchangeRate) => {
+  selectedCurrency.value = exchangeRate.currency;
+  Search(fromDate.value.replaceAll("-", ""), toDate.value.replaceAll("-", ""), from.value, size.value)
 };
 
 const calculateDateDifferenceInDays = (date1, date2) => {
@@ -222,7 +228,7 @@ const filterData = () => {
   flex-wrap: wrap;
   width: 265px;
   padding: 10px;
-  background-color: #54b4a0;
+  background-color: #a1e3b9;
   border: 1px solid #ccc;
   border-radius: 8px;
 }
@@ -248,7 +254,7 @@ const filterData = () => {
   padding: 1rem;
   width: 100%;
   max-width: 800px;
-  background-color: #54b4a0;
+  background-color: #a1e3b9;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -259,7 +265,7 @@ const filterData = () => {
 }
 
 .styled-table thead tr {
-  background-color: #09a183;
+  background-color: #5fc584;
   text-align: left;
 }
 
@@ -271,6 +277,8 @@ const filterData = () => {
 
 .styled-table tbody tr {
   border-bottom: 1px solid #dddddd;
+  font-size: 13px;
+  font-weight: normal;
 }
 
 .styled-table tbody {
@@ -282,7 +290,7 @@ const filterData = () => {
 }
 
 .styled-table tbody tr:hover {
-  background-color: #54b4a0;
+  background-color: #a1e3b9;
   cursor: pointer;
 }
 
@@ -311,7 +319,7 @@ const filterData = () => {
   width: 25rem;
   height: 25rem;
   padding: 20px;
-  background-color: #54b4a0;
+  background-color: #a1e3b9;
   border: 1px solid #ccc;
   border-radius: 8px;
 }

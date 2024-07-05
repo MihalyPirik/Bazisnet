@@ -71,7 +71,7 @@ const calculatedToCurrency = computed(() => {
   toUnit.value = exchangeRates.value.find(rate => rate.currency === toCurrencySelected.value)?.unit || 1;
 
   const result = (fromCurrency.value * fromCurrencyValue.value / fromUnit.value) / (toCurrencyValue.value / toUnit.value);
-  return parseFloat(result.toFixed(2));
+  return parseFloat(result.toFixed(3));
 });
 
 watch(calculatedToCurrency, (newValue) => {
@@ -92,7 +92,7 @@ watch(calculatedToCurrency, (newValue) => {
   flex-wrap: wrap;
   width: 400px;
   padding: 30px;
-  background-color: #54b4a0;
+  background-color: #a1e3b9;
   border: 1px solid #ccc;
   border-radius: 8px;
 }

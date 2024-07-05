@@ -25,8 +25,8 @@
 
 <style scoped>
 nav {
-  background-color: #55AD9B !important;
-  font-size: 16px;
+  background-color: #5fc584 !important;
+  font-size: 18px;
   font-weight: 700;
 }
 
