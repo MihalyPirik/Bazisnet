@@ -3,3 +3,19 @@ body {
   margin: 0px;
   padding: 0px;
 }
+
+.form-group input[type='number'] {
+  width: 200px;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  margin: 5px auto;
+}

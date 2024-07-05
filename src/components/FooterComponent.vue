@@ -33,5 +33,7 @@ export default {
 .footer .content p {
   margin: 0;
   font-size: 1rem;
+  font-size: 16px;
+  font-weight: 500;
 }
 </style>

@@ -26,7 +26,8 @@
 <style scoped>
 nav {
   background-color: #55AD9B !important;
-  font-size: 20px;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 button {

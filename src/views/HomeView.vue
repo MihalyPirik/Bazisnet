@@ -99,16 +99,18 @@ const chartRates = computed(() => {
           ticks: {
             font: {
               size: 14,
-              weight: '200'
-            }
+              weight: 'bold'
+            },
+            color: '#393737'
           }
         },
         y: {
           ticks: {
             font: {
               size: 14,
-              weight: '200'
-            }
+              weight: 'bold'
+            },
+            color: '#393737'
           }
         }
       },
@@ -158,10 +160,10 @@ onMounted(() => {
     });
 });
 
-const Search = (fromDate, toDate, from, size) => { // az első keresés nem jó
+const Search = (fromDate, toDate, from, size) => {
   exchangeRates.value = [];
   DataService
-    .getAllExchangeRate(fromDate, toDate, from, size)
+    .getAllExchangeRate(fromDate, toDate, from, size*18)
     .then((resp) => {
       exchangeRates.value = resp.data.exchangeRates;
       dataLength.value = resp.data.total;
@@ -225,27 +227,11 @@ const filterData = () => {
   border-radius: 8px;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-  margin: 5px auto;
-}
-
-.form-group label {
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
 .form-group input {
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #ccc;
+  border: 2px solid #ccc;
   border-radius: 4px;
-  width: 200px;
-}
-
-.form-group input[type='number'] {
   width: 200px;
 }
 
@@ -311,6 +297,12 @@ const filterData = () => {
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   margin: 5px auto;
+}
+
+#search-button:hover {
+  box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+  border: 1px solid #ccc;
 }
 
 .chart-container {
