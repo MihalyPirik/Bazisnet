@@ -49,8 +49,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for='exchangeRate in exchangeRates' :key='exchangeRate.currency'
-            @click='handleRowClick(exchangeRate)'>
+          <tr v-for='exchangeRate in exchangeRates' :key='exchangeRate.currency' @click='handleRowClick(exchangeRate)'>
             <th scope='row'>{{ exchangeRate.currency ? exchangeRate.currency : 'No data' }}</th>
             <th scope='row'>{{ exchangeRate.date ? exchangeRate.date : 'No data' }}</th>
             <th scope='row'>{{ exchangeRate.time ? exchangeRate.time : 'No data' }}</th>
@@ -324,9 +323,285 @@ const filterData = () => {
   border-radius: 8px;
 }
 
+@media (min-width: 1520px) {
+  .container-fluid {
+    flex-direction: row;
+  }
+
+  .form-container {
+    width: 20%;
+    padding: 0;
+    margin: 10rem, auto;
+  }
+
+  .form-group {
+    width: 60%;
+    margin: 5px auto;
+    font-size: 18px;
+  }
+
+  .form-group input {
+    font-size: 16px;
+    width: 100% !important;
+  }
+
+  .form-group select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    width: 100%;
+  }
+
+  .table-container {
+    padding: 0;
+    max-width: 1200px;
+    width: 50%;
+    margin: 0rem auto;
+  }
+
+  #search-button {
+    padding: 5px 10px;
+    margin: 0px auto;
+    width: 50%;
+    font-size: 18px;
+  }
+
+  #all-currency {
+    margin: 1rem;
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .chart-container {
+    width: 20%;
+    margin: 10rem, auto;
+  }
+}
+
+@media (max-width: 1520px) {
+  .container-fluid {
+    flex-direction: column;
+  }
+
+  .form-container {
+    width: 40%;
+    margin: auto;
+    padding: 0
+  }
+
+  .form-group {
+    width: 60%;
+    margin: 10px auto;
+    font-size: 18px;
+  }
+
+  .form-group input {
+    font-size: 16px;
+    width: 100% !important;
+  }
+
+  .form-group select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    width: 100%;
+  }
+
+  .table-container {
+    padding: 0;
+    margin: 4rem auto;
+    overflow-x: auto;
+    max-width: 1400px;
+  }
+
+  #search-button {
+    padding: 5px 10px;
+    margin: 0px auto;
+    width: 50%;
+    font-size: 18px;
+  }
+
+  #all-currency {
+    margin: 1rem;
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .chart-container {
+    width: 100%;
+    margin: auto;
+    width: 50%;
+  }
+}
+
+@media (max-width: 1200px) {
+  .container-fluid {
+    flex-direction: column;
+  }
+
+  .form-container {
+    width: 50%;
+    margin: auto;
+    padding: 0
+  }
+
+  .form-group {
+    width: 60%;
+    margin: 10px auto;
+    font-size: 18px;
+  }
+
+  .form-group input {
+    font-size: 16px;
+    width: 100% !important;
+  }
+
+  .form-group select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    width: 100%;
+  }
+
+  .table-container {
+    padding: 0;
+    margin: 4rem auto;
+    overflow-x: auto;
+    max-width: 1000px;
+  }
+
+  #search-button {
+    padding: 5px 10px;
+    margin: 0px auto;
+    width: 50%;
+    font-size: 18px;
+  }
+
+  #all-currency {
+    margin: 1rem;
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .chart-container {
+    width: 100%;
+    margin: auto;
+    width: 50%;
+  }
+}
+
+@media (max-width: 992px) {
+  .container-fluid {
+    flex-direction: column;
+  }
+
+  .form-container {
+    width: 50%;
+    margin: auto;
+  }
+
+  .form-group {
+    width: 60%;
+    margin: 10px auto;
+    font-size: 18px;
+  }
+
+  .form-group input {
+    font-size: 16px;
+    width: 100% !important;
+  }
+
+  .form-group select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    width: 100%;
+  }
+
+  .table-container {
+    padding: 0;
+    margin: 2rem auto;
+    overflow-x: auto;
+    width: 100%;
+    max-width: 900px;
+  }
+
+  #search-button {
+    padding: 5px 10px;
+    margin: 0px auto;
+    width: 50%;
+    font-size: 18px;
+  }
+
+  #all-currency {
+    margin: 1rem;
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .chart-container {
+    width: 80%;
+    margin: auto;
+  }
+}
+
 @media (max-width: 768px) {
   .container-fluid {
     flex-direction: column;
+    width: 100%;
+  }
+
+  .form-container {
+    width: 70%;
+    margin: auto;
+  }
+
+  .form-group {
+    width: 60%;
+    margin: 10px auto;
+    font-size: 18px;
+  }
+
+  .form-group input {
+    font-size: 16px;
+    width: 100% !important;
+  }
+
+  .form-group select {
+    font-size: 16px;
+    width: 100%;
+  }
+
+  .table-container {
+    padding: 0;
+    margin: 15px auto;
+    overflow-x: auto;
+    width: 100%
+  }
+
+  #search-button {
+    padding: 5px 10px;
+    margin: 0px auto;
+    width: 50%;
+    font-size: 18px;
+  }
+
+  #all-currency {
+    margin: 1rem;
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .chart-container {
+    width: 100%;
+    margin: auto 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .container-fluid {
+    flex-direction: column;
+    widows: 100%;
   }
 
   .form-container {
@@ -334,25 +609,40 @@ const filterData = () => {
     margin: auto 0;
   }
 
+  .form-group {
+    width: 60%;
+    margin: 10px auto;
+  }
+
+  .form-group input {
+    font-size: 16px;
+    width: 100% !important;
+  }
+
+  .form-group select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    width: 100%;
+  }
+
   .table-container {
     padding: 0;
-    margin: 15px auto;
+    margin: 10px auto;
+    overflow-x: auto;
+    width: 100%;
   }
 
   #search-button {
     padding: 5px 10px;
-    font-size: 16px;
-    background-color: #393737;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    margin: 0px 0px;
+    margin: 0px auto;
+    width: 50%;
   }
 
   #all-currency {
     margin: 1rem;
+    font-size: 18px;
+    text-align: center;
   }
 
   .chart-container {
